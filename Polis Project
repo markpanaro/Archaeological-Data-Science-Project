@@ -1,2 +1,32 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+d1 = pd.read_csv("Polis Data.csv")
+PolisData = pd.DataFrame(d1)
+PolisClean = PolisData[["Material category", "Material type (from notes)", "Object", "Context (3)", "Part width (Note)", "Part thickness (Note)", "Part height (Note)", "Part length (Note)"]]
+PolisClean = PolisClean.rename(columns={'Material category': 'material_category', 'Material type (from notes)': 'material_type', 'Context (3)': 'context_three', 'Part width (Note)': 'part_width', 'Part thickness (Note)': 'part_thickness', 'Part height (Note)': 'part_height', 'Part length (Note)': 'part_length'})
+
+
+def categorize_data(to_categorize, categories):
+    for i, entry in enumerate(to_categorize):
+        
+        # Check for item within entry and replace with proper category if found
+        for j, item in enumerate(categories):
+            if item in entry:
+                to_categorize[i] = (categories[j])
+        
+        # If entry is not an existing category, replace with other
+        if to_categorize[i] not in categories:
+            to_categorize[i] = "Other"
+        
+    return to_categorize
+
+
+# Visualize Material Categories
+PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
+test = PolisClean.loc[:,"material_category"]
+test2 = test.values.tolist()
+new_mat_cat = categorize_data(test2,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
+PolisClean['material_category'] = new_mat_cat
+PolisClean.to_csv('Materials Clean.csv')
