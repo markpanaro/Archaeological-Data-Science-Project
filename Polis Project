@@ -31,12 +31,21 @@ def create_pie(data, title):
     plt.show()
 
 
-# Clean and Visualize Material Categories
+# Clean and Visualize Artifact Material Categories
 PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
-mat_list = PolisClean.loc[:,"material_category"]
-mat_list = mat_list.values.tolist()
-new_mat_cat = categorize_data(mat_list,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
+cat_list = PolisClean.loc[:,"material_category"].values.tolist()
+new_mat_cat = categorize_data(cat_list,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
 PolisClean['material_category'] = new_mat_cat
-PolisClean.to_csv('Materials Clean.csv')
 
 create_pie(PolisClean['material_category'], "Polis Material Categories")
+
+# Clean and Visualize Artifact Material Types
+PolisClean['material_type'] = PolisClean['material_type'].fillna("Other")
+type_list = PolisClean.loc[:,"material_type"].values.tolist()
+new_type_cat = categorize_data(type_list, ["Terracotta", "Bone", "Carbon", "Bronze", "Ceramic", "Charcoal", "Clay", "Copper", "Glass", "Iron", "Limestone", "Marble", "Metal", "Plaster", "Shell", "Slag", "Stone"])
+PolisClean['material_type'] = new_type_cat
+
+create_pie(PolisClean['material_type'], "Polis Material Types")
+
+
+PolisClean.to_csv('Polis Clean.csv')
