@@ -30,6 +30,20 @@ def create_pie(data, title):
     plt.title(title)
     plt.show()
 
+def create_bar(data, title):
+    categories = data.value_counts()
+    labels = data.value_counts().index.tolist()
+
+    plt.bar(labels, categories)
+    plt.title(title)
+    plt.show()
+
+def graph_per_context(context, specific_context, column, title):
+    context_matrix = context == specific_context
+    context_data = PolisClean[context_matrix]
+    create_pie(context_data[column], title + specific_context)
+    create_bar(context_data[column], title + specific_context)
+
 
 # Clean and Visualize Artifact Material Categories
 PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
@@ -49,3 +63,7 @@ create_pie(PolisClean['material_type'], "Polis Material Types")
 
 
 PolisClean.to_csv('Polis Clean.csv')
+
+
+# Visualize Material Types per Context
+graph_per_context(PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
