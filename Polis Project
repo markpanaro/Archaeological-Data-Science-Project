@@ -22,11 +22,21 @@ def categorize_data(to_categorize, categories):
         
     return to_categorize
 
+def create_pie(data, title):
+    categories = data.value_counts()
+    labels = data.value_counts().index.tolist()
 
-# Visualize Material Categories
+    plt.pie(categories, labels = labels)
+    plt.title(title)
+    plt.show()
+
+
+# Clean and Visualize Material Categories
 PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
-test = PolisClean.loc[:,"material_category"]
-test2 = test.values.tolist()
-new_mat_cat = categorize_data(test2,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
+mat_list = PolisClean.loc[:,"material_category"]
+mat_list = mat_list.values.tolist()
+new_mat_cat = categorize_data(mat_list,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
 PolisClean['material_category'] = new_mat_cat
 PolisClean.to_csv('Materials Clean.csv')
+
+create_pie(PolisClean['material_category'], "Polis Material Categories")
