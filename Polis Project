@@ -75,8 +75,6 @@ def regression():
     plt.plot(x,abline_values, 'b')
     plt.show()
 
-def find_context():
-    pass
 
 
 # Clean and Visualize Artifact Material Categories
@@ -102,48 +100,44 @@ PolisClean['material_type'] = new_type_cat
 # Visualize Material Types per Context
 #graph_per_context(PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
 
-#PolisClean["context_three"] = PolisClean["context_three"].dropna()
-context_list = PolisClean["context_three"].unique()
-#context_matrix = PolisClean['context_three'] == "B.D7:q17"
-#context_data = PolisClean[context_matrix]
-#print(context_data['material_type'].value_counts())
-#context_data_counts = context_data['material_type'].value_counts()
 
 
-# find_context initial implementation
+
+
+
+
+def find_context(data_set, context_input, constraints, which_type):
+    context_list = context_input.unique()
+    constraint_category = constraints.keys()
+
+    context_meets_reqs = []
+
+    for context in context_list:
+        context_matrix = context_input == context
+        context_data = data_set[context_matrix]
+        context_data_counts = context_data[which_type].value_counts()
+
+        constraints_met = 0
+
+        for item in constraint_category:
+            if item not in context_data_counts:
+                break
+            if context_data_counts[item] >= constraints[item]:
+                constraints_met+=1
+            else:
+                break
+        if constraints_met == len(constraints):
+            context_meets_reqs.append(context)
+    return context_meets_reqs
+    
 constraints = {'Terracotta': 200, 'Bone': 50, 'Other': 5}
-constraint_category = constraints.keys()
+theTEST = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type')
 
-
-context_meets_reqs = []
-#print(context_list[10])
-for context in context_list:
-    #print(context)
-    context_matrix = PolisClean['context_three'] == context
-    context_data = PolisClean[context_matrix]
-    context_data_counts = context_data['material_type'].value_counts()
-
-    constraints_met = 0
-
-    for item in constraint_category:
-        if item not in context_data_counts:
-            break
-        if context_data_counts[item] >= constraints[item]:
-            constraints_met+=1
-        else:
-            break
-    if constraints_met == len(constraints):
-        context_meets_reqs.append(context)
 
 
 # Test above
-print(context_meets_reqs)
+print(theTEST)
 context_matrix = PolisClean['context_three'] == 'B.D7:R14'
 context_data = PolisClean[context_matrix]
 context_data_counts = context_data['material_type'].value_counts()
 print(context_data_counts)
-
-#counts_series = PolisClean['material_type'].value_counts()
-#item = 'Carbon'
-#print(counts_series[item])
-
