@@ -66,7 +66,7 @@ def regression():
     x = [1, 2, 1, 2]
     y = [3, 3, 8, 4]
 
-    print(slag_count)
+    #print(slag_count)
 
     regr_results = sp.stats.linregress(slag_count,charcoal_count)
 
@@ -102,20 +102,48 @@ PolisClean['material_type'] = new_type_cat
 # Visualize Material Types per Context
 #graph_per_context(PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
 
+#PolisClean["context_three"] = PolisClean["context_three"].dropna()
 context_list = PolisClean["context_three"].unique()
-context_matrix = PolisClean['context_three'] == "B.D7:q17"
+#context_matrix = PolisClean['context_three'] == "B.D7:q17"
+#context_data = PolisClean[context_matrix]
+#print(context_data['material_type'].value_counts())
+#context_data_counts = context_data['material_type'].value_counts()
+
+
+# find_context initial implementation
+constraints = {'Terracotta': 200, 'Bone': 50, 'Other': 5}
+constraint_category = constraints.keys()
+
+
+context_meets_reqs = []
+#print(context_list[10])
+for context in context_list:
+    #print(context)
+    context_matrix = PolisClean['context_three'] == context
+    context_data = PolisClean[context_matrix]
+    context_data_counts = context_data['material_type'].value_counts()
+
+    constraints_met = 0
+
+    for item in constraint_category:
+        if item not in context_data_counts:
+            break
+        if context_data_counts[item] >= constraints[item]:
+            constraints_met+=1
+        else:
+            break
+    if constraints_met == len(constraints):
+        context_meets_reqs.append(context)
+
+
+# Test above
+print(context_meets_reqs)
+context_matrix = PolisClean['context_three'] == 'B.D7:R14'
 context_data = PolisClean[context_matrix]
-print(context_data['material_type'].value_counts())
 context_data_counts = context_data['material_type'].value_counts()
+print(context_data_counts)
 
-to_check = {'Terracotta': 50, 'Bone': 10, 'Other': 20}
-check_keys = to_check.keys()
-print(check_keys)
-
-if context_data_counts["Bone"] >= to_check["Bone"]:
-    print("success")
-
-counts_series = PolisClean['material_type'].value_counts()
-item = 'Carbon'
+#counts_series = PolisClean['material_type'].value_counts()
+#item = 'Carbon'
 #print(counts_series[item])
 
