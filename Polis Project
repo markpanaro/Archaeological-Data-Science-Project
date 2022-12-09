@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy as sp
 
 d1 = pd.read_csv("Polis Data.csv")
 PolisData = pd.DataFrame(d1)
@@ -44,6 +45,39 @@ def graph_per_context(context, specific_context, column, title):
     create_pie(context_data[column], title + specific_context)
     create_bar(context_data[column], title + specific_context)
 
+def regression():
+    context_list = PolisClean["context_three"].unique()
+    slag_count= []
+    charcoal_count = []
+
+    for item in context_list:
+    
+        context_matrix = PolisClean['context_three'] == item
+        context_data = PolisClean[context_matrix]
+    
+        context_data_list = context_data["material_type"].tolist()
+
+        slag_count.append()
+        #charcoal_count.append(context_data["material_type"].value_counts("Charcoal"))
+
+    #print(context_list)
+    #print(slag_count)
+    #print(charcoal_count)
+    x = [1, 2, 1, 2]
+    y = [3, 3, 8, 4]
+
+    print(slag_count)
+
+    regr_results = sp.stats.linregress(slag_count,charcoal_count)
+
+    abline_values = [regr_results.slope * i + regr_results.intercept for i in x]
+    plt.scatter(slag_count,charcoal_count,regr_results.intercept)
+    plt.plot(x,abline_values, 'b')
+    plt.show()
+
+def find_context():
+    pass
+
 
 # Clean and Visualize Artifact Material Categories
 PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
@@ -51,7 +85,7 @@ cat_list = PolisClean.loc[:,"material_category"].values.tolist()
 new_mat_cat = categorize_data(cat_list,["Architectural Misc", "Architectural Stone", "Architectural Terracotta", "Bone, Ivory, Shell", "Bronze", "Glass", "Iron", "Miscellaneous Ceramic", "Mosaic Tesserae", "Numismatics", "Organic", "Pottery", "Slag", "Stone Objects", "Terracotta Figurines", "Terracotta Lamps"])
 PolisClean['material_category'] = new_mat_cat
 
-create_pie(PolisClean['material_category'], "Polis Material Categories")
+#create_pie(PolisClean['material_category'], "Polis Material Categories")
 
 # Clean and Visualize Artifact Material Types
 PolisClean['material_type'] = PolisClean['material_type'].fillna("Other")
@@ -59,11 +93,29 @@ type_list = PolisClean.loc[:,"material_type"].values.tolist()
 new_type_cat = categorize_data(type_list, ["Terracotta", "Bone", "Carbon", "Bronze", "Ceramic", "Charcoal", "Clay", "Copper", "Glass", "Iron", "Limestone", "Marble", "Metal", "Plaster", "Shell", "Slag", "Stone"])
 PolisClean['material_type'] = new_type_cat
 
-create_pie(PolisClean['material_type'], "Polis Material Types")
+#create_pie(PolisClean['material_type'], "Polis Material Types")
 
 
-PolisClean.to_csv('Polis Clean.csv')
+#PolisClean.to_csv('Polis Clean.csv')
 
 
 # Visualize Material Types per Context
-graph_per_context(PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
+#graph_per_context(PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
+
+context_list = PolisClean["context_three"].unique()
+context_matrix = PolisClean['context_three'] == "B.D7:q17"
+context_data = PolisClean[context_matrix]
+print(context_data['material_type'].value_counts())
+context_data_counts = context_data['material_type'].value_counts()
+
+to_check = {'Terracotta': 50, 'Bone': 10, 'Other': 20}
+check_keys = to_check.keys()
+print(check_keys)
+
+if context_data_counts["Bone"] >= to_check["Bone"]:
+    print("success")
+
+counts_series = PolisClean['material_type'].value_counts()
+item = 'Carbon'
+#print(counts_series[item])
+
