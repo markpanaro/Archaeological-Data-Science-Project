@@ -141,3 +141,49 @@ context_matrix = PolisClean['context_three'] == 'B.D7:R14'
 context_data = PolisClean[context_matrix]
 context_data_counts = context_data['material_type'].value_counts()
 print(context_data_counts)
+
+
+
+
+
+
+context_list = PolisClean["context_three"].unique()
+
+cat_one = []
+cat_two = []
+
+for context in context_list:
+    
+    context_matrix = PolisClean['context_three'] == context
+    context_data = PolisClean[context_matrix]
+    context_data_counts = context_data["material_type"].value_counts()
+    
+    categories = ["Terracotta", "Slag"]
+
+
+    if categories[0] not in context_data_counts:
+        cat_one.append(0)
+    else:
+        cat_one.append(context_data_counts[categories[0]])
+
+    if categories[1] not in context_data_counts:
+        cat_two.append(0)
+    else:
+        cat_two.append(context_data_counts[categories[1]])
+
+    #charcoal_count.append(context_data["material_type"].value_counts("Charcoal"))
+
+    #print(context_list)
+    #print(slag_count)
+    #print(charcoal_count)
+    x = [1, 2, 1, 2]
+    y = [3, 3, 8, 4]
+
+    #print(slag_count)
+
+regr_results = sp.stats.linregress(cat_one,cat_two)
+
+abline_values = [regr_results.slope * i + regr_results.intercept for i in x]
+plt.scatter(cat_one,cat_two,regr_results.intercept)
+plt.plot(x,abline_values, 'b')
+plt.show()
