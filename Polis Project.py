@@ -158,7 +158,7 @@ for context in context_list:
     context_data = PolisClean[context_matrix]
     context_data_counts = context_data["material_type"].value_counts()
     
-    categories = ["Terracotta", "Slag"]
+    categories = ["Charcoal", "Slag"]
 
 
     if categories[0] not in context_data_counts:
@@ -176,14 +176,18 @@ for context in context_list:
     #print(context_list)
     #print(slag_count)
     #print(charcoal_count)
-    x = [1, 2, 1, 2]
-    y = [3, 3, 8, 4]
+    
 
     #print(slag_count)
 
+boxplot_variables = [cat_one, cat_two]
+
 regr_results = sp.stats.linregress(cat_one,cat_two)
 
-abline_values = [regr_results.slope * i + regr_results.intercept for i in x]
+abline_values = [regr_results.slope * i + regr_results.intercept for i in cat_one]
 plt.scatter(cat_one,cat_two,regr_results.intercept)
-plt.plot(x,abline_values, 'b')
+plt.plot(cat_one,abline_values, 'b')
+plt.show()
+
+plt.boxplot(boxplot_variables['cat_one'])
 plt.show()
