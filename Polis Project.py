@@ -45,37 +45,6 @@ def graph_per_context(context, specific_context, column, title):
     create_pie(context_data[column], title + specific_context)
     create_bar(context_data[column], title + specific_context)
 
-#def regression():
- #   context_list = PolisClean["context_three"].unique()
-  #  slag_count= []
-   # charcoal_count = []
-
-#    for item in context_list:
-    
- #       context_matrix = PolisClean['context_three'] == item
-   #     context_data = PolisClean[context_matrix]
-    
-    #    context_data_list = context_data["material_type"].tolist()
-
-     #   slag_count.append()
-        #charcoal_count.append(context_data["material_type"].value_counts("Charcoal"))
-
-    #print(context_list)
-    #print(slag_count)
-    #print(charcoal_count)
-    #x = [1, 2, 1, 2]
-    #y = [3, 3, 8, 4]
-
-    #print(slag_count)
-
-    #regr_results = sp.stats.linregress(slag_count,charcoal_count)
-
-    #abline_values = [regr_results.slope * i + regr_results.intercept for i in x]
-    #plt.scatter(slag_count,charcoal_count,regr_results.intercept)
-    #plt.plot(x,abline_values, 'b')
-    #plt.show()
-
-
 
 # Clean and Visualize Artifact Material Categories
 PolisClean['material_category'] = PolisClean['material_category'].fillna("Other")
@@ -147,7 +116,7 @@ print(context_data_counts)
 
 
 
-def regression_line(data_set, contexts, category_type, categories):
+def regression_line(data_set, contexts, category_type, categories, x_y_limits, title):
     context_list = contexts.unique()
 
     cat_one = []  
@@ -172,53 +141,15 @@ def regression_line(data_set, contexts, category_type, categories):
     regr_results = sp.stats.linregress(cat_one,cat_two)
 
     abline_values = [regr_results.slope * i + regr_results.intercept for i in cat_one]
+    plt.xlim(0,x_y_limits)
+    plt.ylim(0,x_y_limits)
     plt.scatter(cat_one,cat_two,regr_results.intercept)
     plt.plot(cat_one,abline_values, 'b')
+    plt.title(title)
     plt.show()
 
-context_list = PolisClean["context_three"].unique()
-
-cat_one = []
-cat_two = []
-
-for context in context_list:
-    
-    context_matrix = PolisClean['context_three'] == context
-    context_data = PolisClean[context_matrix]
-    context_data_counts = context_data["material_type"].value_counts()
-    
-    categories = ["Charcoal", "Slag"]
-
-
-    if categories[0] not in context_data_counts:
-        cat_one.append(0)
-    else:
-        cat_one.append(context_data_counts[categories[0]])
-
-    if categories[1] not in context_data_counts:
-        cat_two.append(0)
-    else:
-        cat_two.append(context_data_counts[categories[1]])
-
-    #charcoal_count.append(context_data["material_type"].value_counts("Charcoal"))
-
-    #print(context_list)
-    #print(slag_count)
-    #print(charcoal_count)
-    
-
-    #print(slag_count)
-
-boxplot_variables = [cat_one, cat_two]
-
-regr_results = sp.stats.linregress(cat_one,cat_two)
-
-abline_values = [regr_results.slope * i + regr_results.intercept for i in cat_one]
-plt.scatter(cat_one,cat_two,regr_results.intercept)
-plt.plot(cat_one,abline_values, 'b')
-plt.show()
 
 #plt.boxplot(boxplot_variables['cat_one'])
 #plt.show()
 
-regression_line(PolisClean, PolisClean["context_three"], 'material_type', ["Charcoal", "Slag"])
+regression_line(PolisClean, PolisClean["context_three"], 'material_type', ["Charcoal", "Slag"], 30, "Regression Line of Charcoal and Slag")
