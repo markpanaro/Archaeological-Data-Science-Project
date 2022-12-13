@@ -40,13 +40,16 @@ def graph_per_context(data_set, context, specific_context, column, title):
     create_pie(context_data[column], title + specific_context)
     create_bar(context_data[column], title + specific_context)
 
-# takes inputs of a complete data set, column, constraint series, and string category
-def find_context(data_set, context_input, constraints, which_type):
+# takes inputs of a data set, column, constraint series, string for category, and optimal/list flag
+def find_context(data_set, context_input, constraints, which_type, flag):
     context_list = context_input.unique()
     constraint_category = constraints.keys()
 
     context_meets_reqs = []
+    optimal = ""
+    optimal_count = 0
 
+    # Sum counts of categories relevant to constraints
     for context in context_list:
         context_matrix = context_input == context
         context_data = data_set[context_matrix]
@@ -54,6 +57,7 @@ def find_context(data_set, context_input, constraints, which_type):
 
         constraints_met = 0
 
+        # Iterate all contexts, apply mask to check constraints
         for item in constraint_category:
             if item not in context_data_counts:
                 break
@@ -61,9 +65,16 @@ def find_context(data_set, context_input, constraints, which_type):
                 constraints_met+=1
             else:
                 break
+        # Append to return list only if all constraints are met
         if constraints_met == len(constraints):
             context_meets_reqs.append(context)
-    return context_meets_reqs
+            if len(context_data) >= optimal_count:
+                optimal = context
+                optimal_count = len(context_data)
+    if flag:
+        return context_meets_reqs
+    else:
+        return optimal
 
 def histogram(data_set, contexts, category_type, category,bins, title):
     context_list = contexts.unique()
@@ -150,11 +161,15 @@ def main():
 
     # Test find_context
     constraints = {'Terracotta': 200, 'Bone': 50, 'Other': 5}
-    find_context_demo = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type')
+    find_context_demo = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type', 1)
+    find_context_demo_optimal = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type', 0)
 
     # Display results for find_context demo
     print("List of Contexts Satisfying Constraints:")
     print(find_context_demo)
+    print("Optimal Context:")
+    print(find_context_demo_optimal)
+    # code to display counts to verify above demo:
     # context_matrix = PolisClean['context_three'] == 'B.D7:R14'
     # context_data = PolisClean[context_matrix]
     # context_data_counts = context_data['material_type'].value_counts()
