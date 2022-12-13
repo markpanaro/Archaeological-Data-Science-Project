@@ -42,3 +42,8 @@ the best location to continue excavation based on a posed research question.
 This project successfully saw the implementation of a variety of tools for visualizing and working with archaeological data. Understanding of both data science 
 techniques and archaeological principles were applied along the way to facilitate development. Through the use of the tools developed here, greater understanding 
 of an excavation data set can be gleaned.
+
+![This is an image](Images/Polis%20Materials%20Python.png)
+![This is an image](Images/Context%20Types%20Python.png)
+![This is an image](Images/Polis%20Histogram.png)
+![This is an image](Images/Polis%20Regression%20Line.png)
