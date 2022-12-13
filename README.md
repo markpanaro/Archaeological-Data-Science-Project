@@ -17,6 +17,10 @@ for visualization. A function to_categorize was created to accomplish the data c
 of categories to check for within the text data. Each entry is checked and converted to the relevant category if the associated keyword is found. From here, it’s a 
 simple enough to visualize the data as a pie chart or otherwise. Any of the text data with the data set can be visualized in this way. 
 
+<p float="right">
+  <img src="Images/Polis%20Materials%20Python.png" width="100" />
+</p>
+
 Something of particular note is the graph_per_context function. This function works by first applying a mask to obtain only the data for a specified context from the 
 cleaned data before creating visualizations. Within archaeology, subsections of an excavated area are referred to as contexts. By breaking down the contents of a 
 specific context, archaeologists can both draw conclusions about the area and know where to excavate next based on their posed research question. For example, the 
@@ -42,6 +46,14 @@ the best location to continue excavation based on a posed research question.
 This project successfully saw the implementation of a variety of tools for visualizing and working with archaeological data. Understanding of both data science 
 techniques and archaeological principles were applied along the way to facilitate development. Through the use of the tools developed here, greater understanding 
 of an excavation data set can be gleaned.
+
+<img align="right" width="100" height="100" src="Images/Polis%20Materials%20Python.png">
+
+<p float="right">
+  <img src="Images/Polis%20Materials%20Python.png" width="100" />
+  <img src="/img2.png" width="100" /> 
+  <img src="/img3.png" width="100" />
+</p>
 
 ![This is an image](Images/Polis%20Materials%20Python.png)
 ![This is an image](Images/Context%20Types%20Python.png)
