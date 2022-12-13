@@ -113,7 +113,34 @@ print(context_data_counts)
 
 
 
+def histogram(data_set, contexts, category_type, category,bins, title):
+    context_list = contexts.unique()
 
+    cat_count = []
+
+    for context in context_list:
+        
+        context_matrix = contexts == context
+        context_data = data_set[context_matrix]
+        context_data_counts = context_data[category_type].value_counts()
+
+        if category not in context_data_counts:
+            cat_count.append(0)
+        else:
+            cat_count.append(context_data_counts[category])
+    
+#plt.hist(cat_count, context_list)
+   # plt.show()
+
+    #counts, bins = np.histogram(x)
+    #plt.stairs(counts, bins)
+   # cat_count, context_list = np.histogram(x)
+#plt.stairs(cat_count, context_list)
+    plt.hist(cat_count,bins)
+    plt.show()
+
+histogram(PolisClean, PolisClean["context_three"], "material_type", "Terracotta", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "Histogram of Terracotta Across Polis")
+    
 
 
 def regression_line(data_set, contexts, category_type, categories, x_y_limits, title):
