@@ -40,6 +40,7 @@ def graph_per_context(data_set, context, specific_context, column, title):
     create_pie(context_data[column], title + specific_context)
     create_bar(context_data[column], title + specific_context)
 
+# takes inputs of a complete data set, column, constraint series, and string category
 def find_context(data_set, context_input, constraints, which_type):
     context_list = context_input.unique()
     constraint_category = constraints.keys()
@@ -147,19 +148,22 @@ def main():
     # Visualize Material Types per Context
     graph_per_context(PolisClean, PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
 
+    # Test find_context
     constraints = {'Terracotta': 200, 'Bone': 50, 'Other': 5}
-    theTEST = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type')
+    find_context_demo = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type')
 
-    # Test above
+    # Display results for find_context demo
     print("List of Contexts Satisfying Constraints:")
-    print(theTEST)
-    context_matrix = PolisClean['context_three'] == 'B.D7:R14'
-    #context_data = PolisClean[context_matrix]
-    #context_data_counts = context_data['material_type'].value_counts()
-    #print(context_data_counts)
+    print(find_context_demo)
+    # context_matrix = PolisClean['context_three'] == 'B.D7:R14'
+    # context_data = PolisClean[context_matrix]
+    # context_data_counts = context_data['material_type'].value_counts()
+    # print(context_data_counts)
 
+    # create histogram of terracotta across the site
     histogram(PolisClean, PolisClean["context_three"], "material_type", "Terracotta", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], "Histogram of Terracotta Across Polis")
 
+    # create regression line of charcoal and slag
     regression_line(PolisClean, PolisClean["context_three"], 'material_type', ["Charcoal", "Slag"], 30, "Regression Line of Charcoal and Slag")
 
 main()
