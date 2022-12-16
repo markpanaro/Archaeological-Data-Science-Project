@@ -1,9 +1,8 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
 
-
+# takes category column and list of categories to sort by
 def categorize_data(to_categorize, categories):
     for i, entry in enumerate(to_categorize):
         
@@ -34,13 +33,14 @@ def create_bar(data, title):
     plt.title(title)
     plt.show()
 
+# takes a data set, context column, context, category column, and title
 def graph_per_context(data_set, context, specific_context, column, title):
     context_matrix = context == specific_context
     context_data = data_set[context_matrix]
     create_pie(context_data[column], title + specific_context)
     create_bar(context_data[column], title + specific_context)
 
-# takes inputs of a data set, column, constraint series, string for category, and optimal/list flag
+# takes a data set, column, constraint series, string for category, and optimal/list flag
 def find_context(data_set, context_input, constraints, which_type, flag):
     context_list = context_input.unique()
     constraint_category = constraints.keys()
@@ -76,6 +76,7 @@ def find_context(data_set, context_input, constraints, which_type, flag):
     else:
         return optimal
 
+# takes data set, context column, category column, category, bin list, and title
 def histogram(data_set, contexts, category_type, category,bins, title):
     context_list = contexts.unique()
 
@@ -96,6 +97,7 @@ def histogram(data_set, contexts, category_type, category,bins, title):
     plt.title(title)
     plt.show()
 
+# takes data set, context column, category column, categories list, display limits, and title
 def regression_line(data_set, contexts, category_type, categories, x_y_limits, title):
     context_list = contexts.unique()
 
@@ -160,7 +162,7 @@ def main():
     graph_per_context(PolisClean, PolisClean['context_three'], 'B.D7:t19-2000', "material_type", "Material Types of Context ")
 
     # Test find_context
-    constraints = {'Terracotta': 200, 'Bone': 50, 'Other': 5}
+    constraints = {'Slag': 70, 'Plaster': 15, 'Charcoal': 50}
     find_context_demo = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type', 1)
     find_context_demo_optimal = find_context(PolisClean, PolisClean["context_three"], constraints, 'material_type', 0)
 
@@ -170,7 +172,7 @@ def main():
     print("Optimal Context:")
     print(find_context_demo_optimal)
     # code to display counts to verify above demo:
-    # context_matrix = PolisClean['context_three'] == 'B.D7:R14'
+    # context_matrix = PolisClean['context_three'] == 'E.G0:D09.1997'
     # context_data = PolisClean[context_matrix]
     # context_data_counts = context_data['material_type'].value_counts()
     # print(context_data_counts)

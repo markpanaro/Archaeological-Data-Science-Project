@@ -27,8 +27,8 @@ individual item counts per context before generating a histogram with a user pro
 of a variable across several data points. The visual produced here helps with understanding how common a given artifact is across the site, which is certainly helpful 
 from a site analysis standpoint.
 
-The final implemented function find_context works a bit differently than other functions within this project. This function takes minimum artifact count constraints 
-and returns a list of contexts which satisfy all of the constraints. A short paper which was written to describe the integer linear programming problem formulated to 
+The final implemented function find_context works a bit differently than other functions within this project. This function takes a series of minimum artifact count constraints 
+and returns either an optimal context which both meets all constraints and has the highest total artifact count or a list of contexts which satisfy all of the constraints. A short paper which was written to describe the integer linear programming problem formulated to 
 tackle this issue can be read [here](https://medium.com/@panarom/selecting-an-archaeological-context-using-integer-linear-programming-8f60cf7a405d). When applied on a large scale like with the Polis data set, this function is certain to help simplify the process of determining 
 the best location to continue excavation based on a posed research question.
 
